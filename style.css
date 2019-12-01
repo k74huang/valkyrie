@@ -1,0 +1,32 @@
+body {
+    background-color: #dddddd;
+}
+
+.container {
+    max-width: 90%;
+}
+
+.row {
+    padding-top: 5%;
+}
+
+.col-sm {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+img:hover {
+    -webkit-filter: opacity(75%);
+    cursor: pointer;
+}
+
+img {
+    -webkit-transition: all 0.5s;
+    /*-webkit-filter: opacity(75%);*/
+    border: 20px solid white;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: inherit;
+}
