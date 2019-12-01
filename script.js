@@ -22,14 +22,31 @@ imageList = [
 ]
 
 window.onload = function() {
+    document.getElementById("dimmer").style.display = "none";
     for (i = 0; i < imageList.length; i++) {
 
         console.log("Loaded: " + imageList[i]);
 
         var image = document.createElement("img");
         image.src = "walls/" + imageList[i];
+        image.onclick = function() {
+            console.log("Opened: " + this.src);
+            var imageLarge = document.createElement("img");
+            imageLarge.src = this.src;
+            imageLarge.id = "imgLarge";
+            imageLarge.classList.add("imgLarge");
+            document.getElementById("root").appendChild(imageLarge);
+            document.getElementById("dimmer").style.display = "block";
+        };
 
         document.getElementById("col" + (3 - (i + 1) % 3)).appendChild(image);
 
     }
+}
+
+function closeImg() {
+    var imageLarge = document.getElementById("imgLarge");
+    console.log("Closing: " + imageLarge.src);
+    imageLarge.parentNode.removeChild(imageLarge);
+    document.getElementById("dimmer").style.display = "none";
 }
