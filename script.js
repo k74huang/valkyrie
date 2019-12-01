@@ -1,4 +1,15 @@
 imageList = [
+    "ee39104b193a2abe0340c557f1474075200a9081.jpg",
+    "illust_68539777_20190429_001332.jpg",
+    "illust_74259877_20190429_000907.jpg",
+    "IMG_20190428_095817.jpg",
+    "IMG_20190429_124129.jpg",
+    "IMG_20190521_113819.jpg",
+    "IMG_20190618_103526.jpg",
+    "IMG_20190619_105027.jpg",
+    "lFvlgtI.jpg",
+    "trHIiSg.jpg",
+    "twsskbnbcf931.jpg",
     "1bbu6.png",
     "1bxtz.jpg",
     "11vpn.png",
@@ -23,16 +34,39 @@ imageList = [
 
 window.onload = function() {
     document.getElementById("dimmer").style.display = "none";
+    const config = {
+        rootMargin: '0px 0px 50px 0px',
+        threshold: 0.5
+    };
+
+    // register the config object with an instance
+    // of intersectionObserver
+    let observer = new IntersectionObserver(function(entries, self) {
+        // iterate over each entry
+        entries.forEach(entry => {
+            // process just the images that are intersecting.
+            // isIntersecting is a property exposed by the interface
+            if (entry.isIntersecting) {
+                // custom function that copies the path to the img
+                // from data-src to src
+                console.log(entry.target);
+                entry.target.src = entry.target.getAttribute("data-src");
+                // the image is now in place, stop watching
+                self.unobserve(entry.target);
+            }
+        });
+    }, config);
+
     for (i = 0; i < imageList.length; i++) {
 
         console.log("Loaded: " + imageList[i]);
 
         var image = document.createElement("img");
-        image.src = "walls/" + imageList[i];
+        image.setAttribute("data-src", "walls/" + imageList[i]);
         image.onclick = function() {
-            console.log("Opened: " + this.src);
+            console.log("Opened: " + this.getAttribute("data-src"));
             var imageLarge = document.createElement("img");
-            imageLarge.src = this.src;
+            imageLarge.src = this.getAttribute("data-src");
             imageLarge.id = "imgLarge";
             imageLarge.classList.add("imgLarge");
             document.getElementById("root").appendChild(imageLarge);
@@ -42,6 +76,10 @@ window.onload = function() {
         document.getElementById("col" + (3 - (i + 1) % 3)).appendChild(image);
 
     }
+    const imgs = document.querySelectorAll('[data-src]');
+    imgs.forEach(img => {
+        observer.observe(img);
+    });
 }
 
 function closeImg() {

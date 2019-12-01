@@ -37,6 +37,7 @@ img:hover {
 }
 
 img {
+    min-height: 200px;
     -webkit-transition: all 0.5s;
     /*-webkit-filter: opacity(75%);*/
     border: 20px solid white;
