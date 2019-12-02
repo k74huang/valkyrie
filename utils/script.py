@@ -1,6 +1,8 @@
 import os
 import json
 
+from PIL import Image
+
 # set working directory to be the wallpapers folder and list out all the files
 os.chdir("../walls/")
 files = os.listdir(os.getcwd())
@@ -31,9 +33,17 @@ print(wall)
 
 newWalls = []
 
+size = 900,900
+
 for file in files:
 	if(file != wall):
 		newWalls.append(file)
+		img = Image.open("../walls/" + file)
+		if img.mode != "RGB":
+			img = img.convert("RGB")
+		img.thumbnail(size)
+		img.save("../thumbs/" + file, "JPEG", quality=50)
+		print("saving: " + file)
 	else:
 		break
 
