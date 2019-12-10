@@ -59,3 +59,5 @@ scriptFile = open("../script.js", "w")
 scriptFile.write(fileStr[0:openBracket] + str(newWalls) + fileStr[closeBracket+1:])
 scriptFile.close();
 
+subprocess.call(['./gitHelp.bat'], shell=True)
+
