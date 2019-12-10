@@ -1,6 +1,6 @@
 import os
 import json
-import subprocess
+from subprocess import Popen
 
 from PIL import Image
 
@@ -59,5 +59,8 @@ scriptFile = open("../script.js", "w")
 scriptFile.write(fileStr[0:openBracket] + str(newWalls) + fileStr[closeBracket+1:])
 scriptFile.close();
 
-subprocess.call(['./gitHelp.bat'], shell=True)
+os.chdir("../utils")
+print(os.getcwd())
+
+Popen("gitHelp.bat", cwd=os.getcwd())
 
