@@ -56,6 +56,8 @@ def handle():
 			newWalls.append(pape[1:-1])
 
 
+	print(newWalls);
+
 	# open the script.js file for writing and write new info
 	scriptFile = open("../script.js", "w")
 	scriptFile.write(fileStr[0:openBracket] + str(newWalls) + fileStr[closeBracket+1:])
@@ -66,3 +68,5 @@ def handle():
 
 	Popen("gitHelp.bat", cwd=os.getcwd())
 
+if __name__ == "__main__":
+    handle()
