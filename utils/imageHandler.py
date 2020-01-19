@@ -58,8 +58,8 @@ def handle():
 			newWalls.append(pape[1:-1])
 			print("Confirmed that " + pape[1:-1] + " is still in the wallpapers folder.")
 		elif(pape != "" and (not os.path.isfile('../walls/' + pape[1:-1]))):
-			print(pape[1:-5] + ".jpg has been removed as a thumbnail and from the website.")
-			os.remove('../thumbs/' + pape[1:-5] + '.jpg')
+			print(pape[1:-1] + " has been removed as a thumbnail and from the website.")
+			os.remove('../thumbs/' + pape[1:-1])
 
 
 	print("Wallpaper Listing: ")
