@@ -10,6 +10,8 @@ def handle():
 	os.chdir("../walls/")
 	files = os.listdir(os.getcwd())
 
+	print("files: " + str(files));
+
 	# sort the directory by when the file was last accessed (i.e. when I put the file in the folder)
 	files.sort(key=os.path.getatime, reverse=1)
 
@@ -39,6 +41,7 @@ def handle():
 	size = 900,900
 
 	for file in files:
+		print("file: " + file)
 		if(file != wall):
 			newWalls.append(file)
 			img = Image.open("../walls/" + file)
@@ -52,11 +55,16 @@ def handle():
 
 
 	for pape in walls:
-		if(pape != ""):
+		if(pape != "" and os.path.isfile('../walls/' + pape)):
 			newWalls.append(pape[1:-1])
+			print("added pape: " + pape)
+		else:
+			print('removing: ../thumbs/' + pape[1:-4] + '.jpg')
+			# os.remove('../thumbs/' + pape[1:-2] + '.jpg')
 
 
-	print(newWalls);
+	print("NEW WALLS: ")
+	print(str(newWalls))
 
 	# open the script.js file for writing and write new info
 	scriptFile = open("../script.js", "w")
@@ -66,7 +74,7 @@ def handle():
 	os.chdir("../utils")
 	print(os.getcwd())
 
-	Popen("gitHelp.bat", cwd=os.getcwd())
+	# Popen("gitHelp.bat", cwd=os.getcwd())
 
 if __name__ == "__main__":
     handle()
