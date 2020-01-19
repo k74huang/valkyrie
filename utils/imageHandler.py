@@ -34,16 +34,15 @@ def handle():
 	wall = walls[0]
 	wall = wall[1:-1]
 
-	print(wall)
-
 	newWalls = []
 
 	size = 900,900
 
 	for file in files:
-		print("file: " + file)
+		print("The most recent file is: " + file)
 		if(file != wall):
 			newWalls.append(file)
+			print("found a new wallpaper: " + file + ", generating thumbnail!");
 			img = Image.open("../walls/" + file)
 			if img.mode != "RGB":
 				img = img.convert("RGB")
@@ -55,15 +54,15 @@ def handle():
 
 
 	for pape in walls:
-		if(pape != "" and os.path.isfile('../walls/' + pape)):
+		if(pape != "" and os.path.isfile("../walls/" + pape[1:-1])):
 			newWalls.append(pape[1:-1])
-			print("added pape: " + pape)
-		else:
-			print('removing: ../thumbs/' + pape[1:-4] + '.jpg')
-			# os.remove('../thumbs/' + pape[1:-2] + '.jpg')
+			print("Confirmed that " + pape[1:-1] + " is still in the wallpapers folder.")
+		elif(pape != "" and (not os.path.isfile('../walls/' + pape[1:-1]))):
+			print(pape[1:-5] + ".jpg has been removed as a thumbnail and from the website.")
+			os.remove('../thumbs/' + pape[1:-5] + '.jpg')
 
 
-	print("NEW WALLS: ")
+	print("Wallpaper Listing: ")
 	print(str(newWalls))
 
 	# open the script.js file for writing and write new info
@@ -72,7 +71,7 @@ def handle():
 	scriptFile.close();
 
 	os.chdir("../utils")
-	print(os.getcwd())
+	# print(os.getcwd())
 
 	# Popen("gitHelp.bat", cwd=os.getcwd())
 
