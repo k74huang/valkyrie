@@ -1,4 +1,4 @@
-imageList = []
+imageList = ['884934.png']
 
 window.onload = function() {
     document.getElementById("dimmer").style.display = "none";
