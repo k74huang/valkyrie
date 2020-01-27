@@ -13,34 +13,6 @@ def create_menu_item(menu, label, func):
     menu.Append(item)
     return item
 
-
-class TaskBarIcon(wx.adv.TaskBarIcon):
-    def __init__(self):
-        super(TaskBarIcon, self).__init__()
-        self.set_icon("../favicon-96x96.png")
-        self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
-
-    def CreatePopupMenu(self):
-        menu = wx.Menu()
-        create_menu_item(menu, 'Say Hello', self.on_hello)
-        menu.AppendSeparator()
-        create_menu_item(menu, 'Exit', self.on_exit)
-        return menu
-
-    def set_icon(self, path):
-        icon = wx.Icon()
-        self.SetIcon(icon, "abababababa")
-
-    def on_left_down(self, event):
-        print('Tray icon was left-clicked.')
-
-    def on_hello(self, event):
-        print('Hello, world!')
-
-    def on_exit(self, event):
-        wx.CallAfter(self.Destroy)
-        exit()
-
 class Watcher:
     DIRECTORY_TO_WATCH = "../walls/"
 
@@ -60,6 +32,35 @@ class Watcher:
 
         self.observer.join()
 
+
+class TaskBarIcon(wx.adv.TaskBarIcon):
+    def __init__(self):
+        super(TaskBarIcon, self).__init__()
+        self.set_icon("../icon.png")
+        self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
+
+    def CreatePopupMenu(self):
+        menu = wx.Menu()
+        create_menu_item(menu, 'Say Hello', self.on_hello)
+        menu.AppendSeparator()
+        create_menu_item(menu, 'Exit', self.on_exit)
+        return menu
+
+    def set_icon(self, path):
+        iconBmp = wx.Bitmap(path, type=wx.BITMAP_TYPE_PNG)
+        iconBmp.SetMask(wx.Mask(iconBmp, wx.WHITE)) #sets the transparency colour to white 
+        icon = wx.Icon(iconBmp)
+        self.SetIcon(icon, "Watching: ../walls/")
+
+    def on_left_down(self, event):
+        print('Tray icon was left-clicked.')
+
+    def on_hello(self, event):
+        print('Hello, world!')
+
+    def on_exit(self, event):
+        wx.CallAfter(self.Destroy)
+        # exit()
 
 class Handler(FileSystemEventHandler):
 
