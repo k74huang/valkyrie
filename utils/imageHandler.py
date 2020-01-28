@@ -75,7 +75,7 @@ def handle():
 	os.chdir("../utils")
 	# print(os.getcwd())
 
-	# Popen("gitHelp.bat", cwd=os.getcwd())
+	Popen("gitHelp.bat", cwd=os.getcwd())
 
 if __name__ == "__main__":
     handle()
