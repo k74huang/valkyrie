@@ -8,9 +8,16 @@ import wx.adv
 import logging
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
+from watchdog.events import FileSystemEventHandler
 
+locale = wx.Locale.GetSystemLanguage()
 lastFile = ""
 # w = Watcher()
+
+class customFSHandler(FileSystemEventHandler):
+    def on_created(self, event):
+        print("Created file!")
+        print(event.src_path)
 
 def create_menu_item(menu, label, func):
     item = wx.MenuItem(menu, -1, label)
@@ -21,7 +28,7 @@ def create_menu_item(menu, label, func):
 def monitorDirectory():
     logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
     path = "../walls/"
-    event_handler = LoggingEventHandler()
+    event_handler = customFSHandler()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
     observer.start()
@@ -104,9 +111,16 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 #                 time.sleep(5)
 #                 imageHandler.handle()
 
+class mainProgram(wx.App):
+    def OnPreInit(self):
+        thread = threading.Thread(target=monitorDirectory, args=())
+        thread.daemon = True
+        thread.start()
+        print("ehh")
+
 
 if __name__ == '__main__':
-    monitorDirectory()
-    # w.run();
-    # app = wx.App()
-    # app.MainLoop()
+    app = mainProgram(redirect=False)
+    app.locale = wx.Locale(locale)
+    TaskBarIcon()
+    app.MainLoop()
