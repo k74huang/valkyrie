@@ -1,8 +1,6 @@
 import time
 import imageHandler
 import threading
-# from watchdog.observers import Observer
-# from watchdog.events import FileSystemEventHandler
 import wx
 import wx.adv
 import logging
@@ -12,12 +10,12 @@ from watchdog.events import FileSystemEventHandler
 
 locale = wx.Locale.GetSystemLanguage()
 lastFile = ""
-# w = Watcher()
+
+folderToMonitor = "../walls/"
 
 class customFSHandler(FileSystemEventHandler):
     def on_created(self, event):
-        print("Created file!")
-        print(event.src_path)
+        print("Created file: " + event.src_path[len(folderToMonitor):] + "!")
 
 def create_menu_item(menu, label, func):
     item = wx.MenuItem(menu, -1, label)
@@ -27,7 +25,7 @@ def create_menu_item(menu, label, func):
 
 def monitorDirectory():
     logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
-    path = "../walls/"
+    path = folderToMonitor
     event_handler = customFSHandler()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
@@ -38,27 +36,6 @@ def monitorDirectory():
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
-
-
-# class Watcher:
-#     DIRECTORY_TO_WATCH = "../walls/"
-
-#     def __init__(self):
-#         self.observer = Observer()
-
-#     def run(self):
-#         event_handler = Handler()
-#         self.observer.schedule(event_handler, self.DIRECTORY_TO_WATCH, recursive=True)
-#         self.observer.start()
-#         try:
-#             while True:
-#                 time.sleep(5)
-#         except:
-#             self.observer.stop()
-#             print("Error")
-
-#         self.observer.join()
-
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self):
@@ -77,7 +54,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         iconBmp = wx.Bitmap(path, type=wx.BITMAP_TYPE_PNG)
         iconBmp.SetMask(wx.Mask(iconBmp, wx.WHITE)) #sets the transparency colour to white 
         icon = wx.Icon(iconBmp)
-        self.SetIcon(icon, "Watching: ../walls/")
+        self.SetIcon(icon, "Watching: " + folderToMonitor)
 
     def on_left_down(self, event):
         print('Tray icon was left-clicked.')
@@ -87,36 +64,12 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
-        # exit()
-
-# class Handler(FileSystemEventHandler):
-
-#     @staticmethod
-#     def on_any_event(event):
-#         if event.is_directory:
-#             return None
-
-#         elif event.event_type == 'created':
-#             # Take any action here when a file is first created.
-#             print("Received created event - %s." % event.src_path)
-
-#         elif event.event_type == 'modified':
-#             global lastFile
-#             # Taken any action here when a file is modified.
-#             if(event.src_path == lastFile):
-#                 print("duplicate event, ignored")
-#             else:
-#                 print("Received modified event - %s." % event.src_path)
-#                 lastFile = event.src_path
-#                 time.sleep(5)
-#                 imageHandler.handle()
 
 class mainProgram(wx.App):
     def OnPreInit(self):
         thread = threading.Thread(target=monitorDirectory, args=())
         thread.daemon = True
         thread.start()
-        print("ehh")
 
 
 if __name__ == '__main__':
