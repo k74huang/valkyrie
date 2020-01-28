@@ -42,7 +42,7 @@ def monitorDirectory():
 class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self):
         super(TaskBarIcon, self).__init__()
-        self.set_icon("../icon.png")
+        self.set_icon("../favicon-96x96.png")
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
 
     def CreatePopupMenu(self):
