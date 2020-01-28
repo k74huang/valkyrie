@@ -28,7 +28,7 @@ def handle():
 	walls = fileStr[openBracket+1:closeBracket]
 
 	walls = walls.replace("\n", "");
-	walls = walls.replace(" ", "");
+	# walls = walls.replace(" ", "");
 	walls = walls.split(",")
 
 	wall = walls[0]
@@ -54,6 +54,8 @@ def handle():
 
 
 	for pape in walls:
+		pape = pape.strip()
+		print ("pape: |" + pape)
 		if(pape != "" and os.path.isfile("../walls/" + pape[1:-1])):
 			newWalls.append(pape[1:-1])
 			print("Confirmed that " + pape[1:-1] + " is still in the wallpapers folder.")

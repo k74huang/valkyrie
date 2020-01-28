@@ -16,6 +16,7 @@ folderToMonitor = "../walls/"
 class customFSHandler(FileSystemEventHandler):
     def on_created(self, event):
         print("Created file: " + event.src_path[len(folderToMonitor):] + "!")
+        imageHandler.handle()
 
 def create_menu_item(menu, label, func):
     item = wx.MenuItem(menu, -1, label)
