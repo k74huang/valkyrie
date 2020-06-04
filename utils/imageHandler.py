@@ -56,6 +56,8 @@ def handle():
                 wall[1:-1] + " has been removed as a thumbnail and from the website.")
             os.remove('../thumbs/' + wall[1:-1])
 
+    newWalls = str(newWalls)[1:-1].replace(", ", "\n")
+
     # open the script.js file for writing and write new info
     scriptFile = open("../script.js", "w")
     scriptFile.write(fileStr[0:(fileStr.find("["))] +
