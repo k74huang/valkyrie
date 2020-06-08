@@ -1,8 +1,9 @@
 import os
 import json
-from subprocess import Popen
-
+import time
+import json
 from PIL import Image
+from subprocess import Popen
 
 
 def handle():
@@ -23,19 +24,29 @@ def handle():
 
     # Cut out only the wallpaper array from the script file
     walls = fileStr[(fileStr.find("[") + 1):(fileStr.find("]"))]
-    walls = walls.replace("\n", "").split(",")
 
-    # get the first wallpaper in the script file's list
-    firstWall = walls[0][1:-1]
+    if(walls != ""):
+        walls = walls.replace("\n", "")
+        walls = "[" + walls + "]"
+        # print(walls)
+        walls = json.loads(walls)
+        # get when the last wallpaper was loaded
+        prevLoadTime = walls[0].get("added")
+        print("prevloadTime: " + str(prevLoadTime))
+    else:
+        prevLoadTime = 0
+        walls = []
 
     newWalls = []
 
     size = 900, 900
 
     for file in files:
-        print("The most recent file is: " + file)
-        if(file != firstWall):
-            newWalls.append(file)
+        print("The most recent file is: " + file +
+              " with load time: " + str(os.path.getatime("../walls/" + file)))
+        if(os.path.getatime("../walls/" + file) > prevLoadTime):
+            newWalls.append(
+                {"filename": file, "added": os.path.getatime("../walls/" + file)})
             print("found a new wallpaper: " + file + ", generating thumbnail!")
             img = Image.open("../walls/" + file)
             if img.mode != "RGB":
@@ -47,16 +58,19 @@ def handle():
             break
 
     for wall in walls:
-        wall = wall.strip()
-        print("wall: |" + wall)
-        if(wall != "" and os.path.isfile("../walls/" + wall[1:-1])):
-            newWalls.append(wall[1:-1])
-        elif(wall != "" and (not os.path.isfile('../walls/' + wall[1:-1]))):
+        wallFile = wall.get("filename").strip()
+        print("wall: " + wallFile)
+        if(wall != "" and os.path.isfile("../walls/" + wallFile)):
+            newWalls.append({"filename": wallFile, "added": wall.get("added")})
+        elif(wallFile != "" and (not os.path.isfile('../walls/' + wallFile))):
             print(
-                wall[1:-1] + " has been removed as a thumbnail and from the website.")
-            os.remove('../thumbs/' + wall[1:-1])
+                wallFile + " has been removed as a thumbnail and from the website.")
+            os.remove('../thumbs/' + wallFile)
 
-    newWalls = "[" + str(newWalls)[1:-1].replace(", ", ",\n") + "]"
+    print(newWalls)
+
+    newWalls = json.dumps(newWalls, sort_keys=True,
+                          indent=4, separators=(',', ': '))
 
     # open the script.js file for writing and write new info
     scriptFile = open("../script.js", "w")
@@ -65,7 +79,7 @@ def handle():
     scriptFile.close()
 
     os.chdir("../utils")
-    Popen("gitHelp.bat", cwd=os.getcwd())
+    # Popen("gitHelp.bat", cwd=os.getcwd())
 
 if __name__ == "__main__":
     handle()
