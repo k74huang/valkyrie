@@ -1,5 +1,33 @@
 imageList = [
     {
+        "added": 1591678280.4187205,
+        "filename": "1464920036809.jpg"
+    },
+    {
+        "added": 1591678239.6209786,
+        "filename": "1461003760140.jpg"
+    },
+    {
+        "added": 1591678187.4313273,
+        "filename": "77559996_p0.png"
+    },
+    {
+        "added": 1591677904.0523412,
+        "filename": "71408314_p0.jpg"
+    },
+    {
+        "added": 1591677862.8844862,
+        "filename": "70116129_p0.png"
+    },
+    {
+        "added": 1591677834.6611638,
+        "filename": "57721770_p0.png"
+    },
+    {
+        "added": 1591677443.6211374,
+        "filename": "38576223_p0.jpg"
+    },
+    {
         "added": 1591583230.019616,
         "filename": "1455843817363.png"
     },
@@ -196,7 +224,7 @@ window.onload = function() {
             document.getElementById("dimmer").style.display = "block";
         };
 
-        document.getElementById("col" + (3 - (i + 1) % 3)).appendChild(image);
+        document.getElementById("col" + (i%3)).appendChild(image);
 
     }
     const imgs = document.querySelectorAll('[data-src]');

@@ -39,7 +39,7 @@ def handle():
 
     newWalls = []
 
-    size = 900, 900
+    size = 1400, 1400
 
     for file in files:
         print("The most recent file is: " + file +
@@ -52,6 +52,17 @@ def handle():
             if img.mode != "RGB":
                 img = img.convert("RGB")
             img.thumbnail(size)
+
+            width, height = img.size   # Get dimensions
+
+            left = (width - min(width, height)) / 2
+            top = (height - min(width, height)) / 2
+            right = (width + min(width, height)) / 2
+            bottom = (height + min(width, height)) / 2
+
+            # Crop the center of the image
+            img = img.crop((left, top, right, bottom))
+
             img.save("../thumbs/" + file, "JPEG", quality=50)
             print("saving: " + file)
         else:
