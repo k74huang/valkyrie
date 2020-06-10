@@ -51,17 +51,18 @@ def handle():
             img = Image.open("../walls/" + file)
             if img.mode != "RGB":
                 img = img.convert("RGB")
-            img.thumbnail(size)
 
             width, height = img.size   # Get dimensions
+            dim = min(width, height)
 
-            left = (width - min(width, height)) / 2
-            top = (height - min(width, height)) / 2
-            right = (width + min(width, height)) / 2
-            bottom = (height + min(width, height)) / 2
-
+            left = (width - dim) / 2
+            top = (height - dim) / 2
+            right = (width + dim) / 2
+            bottom = (height + dim) / 2
             # Crop the center of the image
             img = img.crop((left, top, right, bottom))
+
+            img.thumbnail(size)
 
             img.save("../thumbs/" + file, "JPEG", quality=50)
             print("saving: " + file)
