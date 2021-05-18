@@ -1,11 +1,12 @@
 body {
-    background-color: #ffffff;
+    background-color: #dddddd;
 }
 
 .container {
     max-width: 90%;
     display: flex;
     flex-direction: column;
+    padding-top:10vh;
 }
 
 .row
@@ -26,8 +27,8 @@ body {
 .col-sm {
     padding-right: 0;
     padding-left: 0;
-    margin-right: 0px;
-    margin-left: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 #dimmer {
@@ -53,9 +54,9 @@ img {
     min-height: 200px;
     -webkit-transition: all 0.5s;
     /*-webkit-filter: opacity(75%);*/
-    border: none;
-    margin-bottom: 0px;
-    margin-top: 0px;
+    border: 20px solid white;
+    margin-bottom: 10px;
+    margin-top: 10px;
     width: inherit;
 }
 
