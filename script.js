@@ -24,22 +24,6 @@ imageList = [
     filename: "77559996_p0.png",
   },
   {
-    added: 1591677904.0523412,
-    filename: "71408314_p0.jpg",
-  },
-  {
-    added: 1591677862.8844862,
-    filename: "70116129_p0.png",
-  },
-  {
-    added: 1591677834.6611638,
-    filename: "57721770_p0.png",
-  },
-  {
-    added: 1591677443.6211374,
-    filename: "38576223_p0.jpg",
-  },
-  {
     added: 1591583230.019616,
     filename: "1455843817363.png",
   },
